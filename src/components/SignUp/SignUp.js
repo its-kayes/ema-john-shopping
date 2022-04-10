@@ -38,7 +38,7 @@ const SignUp = () => {
             const myuser = userCredential
             console.log(myuser);
             if(myuser) {
-                navigation('/shop')
+                navigation('/login')
             }
         })
         .catch(err => {
