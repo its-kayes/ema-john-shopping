@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-// import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import './SignUp.css';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
 
 
 
@@ -16,8 +16,7 @@ const SignUp = () => {
     let [conpass, setConpass] = useState('');
     let [error, setError] = useState('');
 
-    // let [createUserWithEmailAndPassword, user] = useCreateUserWithEmailAndPassword(auth);
-
+    
     let emailFild = event => {
         setEmail(event.target.value)
         // console.log(email);
@@ -29,15 +28,19 @@ const SignUp = () => {
     let conpassField = event => {
         setConpass(event.target.value)
     }
+
+    let [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+    let user = useAuthState(auth);
+    
     let submit = event => {
         event.preventDefault();
-
-        createUserWithEmailAndPassword(auth, email, pass)
-        // createUserWithEmailAndPassword(email, pass)
+        
+        // createUserWithEmailAndPassword(auth, email, pass)
+        createUserWithEmailAndPassword(email, pass)
             .then((userCredential) => {
-                const myuser = userCredential.user;
+                const myuser = userCredential?.user;
                 console.log(myuser);
-                if (myuser) {
+                if (user) {
                     navigation('/login')
                 }
             })
